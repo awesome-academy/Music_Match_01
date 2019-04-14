@@ -53,13 +53,13 @@ public class AlbumsTabFragment extends BaseFragment implements AlbumsContract.Vi
     }
 
     @Override
-    public void onItemClicked(long id) {
+    public void onItemClicked(Album item, List<Album> items) {
 
     }
 
     @Override
     public void showLocalAlbums(List<Album> albums) {
-        mAdapter = new AlbumsTabAdapter(getContext());
+        mAdapter = new AlbumsTabAdapter(getContext(), getFragmentManager());
         mAdapter.setItems(albums);
         mAdapter.setCallBack(this);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), NUMBER_COLUMNS));

@@ -1,16 +1,15 @@
 package com.sunasterisk.musixmatch.ui.music.artiststab;
 
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Artist;
 import com.sunasterisk.musixmatch.data.repository.ArtistRepository;
-import com.sunasterisk.musixmatch.data.source.ArtistDataSource;
 import com.sunasterisk.musixmatch.data.source.local.ArtistLocalDataSource;
 import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
-import com.sunasterisk.musixmatch.ui.playing.tracks.TracksAdapter;
 
 import java.util.List;
 
@@ -51,13 +50,13 @@ public class ArtistsTabFragment extends BaseFragment implements ArtistsContract.
     }
 
     @Override
-    public void onItemClicked(long id) {
+    public void onItemClicked(Artist item, List<Artist> items) {
 
     }
 
     @Override
     public void showArtists(List<Artist> artists) {
-        mAdapter = new ArtistsTabAdapter(getContext());
+        mAdapter = new ArtistsTabAdapter(getContext(), mFragmentManager);
         mAdapter.setCallBack(this);
         mAdapter.setItems(artists);
         mRecyclerView.setAdapter(mAdapter);

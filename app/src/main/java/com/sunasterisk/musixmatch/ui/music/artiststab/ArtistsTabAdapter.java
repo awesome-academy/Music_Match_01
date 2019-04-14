@@ -1,7 +1,9 @@
 package com.sunasterisk.musixmatch.ui.music.artiststab;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.PopupMenu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,8 @@ import com.sunasterisk.musixmatch.data.model.Artist;
 import com.sunasterisk.musixmatch.ui.base.BaseAdapter;
 import com.sunasterisk.musixmatch.ui.base.BaseTrackViewHolder;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
+import com.sunasterisk.musixmatch.ui.music.artiststab.artistdetails.ArtistDetailsFragment;
+import com.sunasterisk.musixmatch.utils.ActivityUtils;
 
 /**
  * Created by superme198 on 08,April,2019
@@ -18,8 +22,18 @@ import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
  */
 public class ArtistsTabAdapter extends BaseAdapter<Artist, OnRecyclerItemClickListener<Artist>, ArtistsTabAdapter.ArtistTabViewHolder> {
 
-    public ArtistsTabAdapter(Context context) {
-        super(context);
+    public static final String ARGUMENT_ARTIST_ITEM = "ARGUMENT_ARTIST_ITEM";
+
+    public ArtistsTabAdapter(Context context, FragmentManager fm) {
+        super(context, fm);
+    }
+
+    public static ArtistDetailsFragment getInstance(Artist artist) {
+        ArtistDetailsFragment fragment = new ArtistDetailsFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ARGUMENT_ARTIST_ITEM, artist);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @NonNull
@@ -80,8 +94,11 @@ public class ArtistsTabAdapter extends BaseAdapter<Artist, OnRecyclerItemClickLi
 
             switch (v.getId()) {
                 case R.id.item_track_card:
+                case R.id.text_title:
+                case R.id.text_subtitle:
                     if (mCallback != null) {
                         mCallback.onItemClicked(mItem);
+                        ActivityUtils.replaceFragment(mFragmentManager, getInstance(mItem));
                     }
                     break;
                 case R.id.button_more:

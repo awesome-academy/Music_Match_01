@@ -20,6 +20,7 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
     protected TracksContract.Presenter mPresenter;
     protected TracksAdapter mAdapter;
     protected OnGetTracksListener mCallback;
+    protected List<Track> mTracks;
 
 
     @Override
@@ -53,8 +54,9 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
 
     @Override
     public void showLocalTracks(List<Track> tracks) {
-        mAdapter = new TracksAdapter(getContext());
+        mAdapter = new TracksAdapter(getContext(), mFragmentManager);
         mAdapter.setCallBack(this);
+        mTracks = tracks;
         mAdapter.setItems(tracks);
         mRecyclerView.setAdapter(mAdapter);
         mCallback.onGetTracksSuccess(tracks);
@@ -68,11 +70,13 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
     @Override
     public void onItemClicked(Track item) {
         mCallback.onPlayed(item);
+        mCallback.onGetTracksSuccess(mTracks);
     }
 
     @Override
-    public void onItemClicked(long id) {
-
+    public void onItemClicked(Track item, List<Track> items) {
+        mCallback.onGetTracksSuccess(items);
+        mCallback.onPlayed(item);
     }
 
     public interface OnGetTracksListener {

@@ -1,10 +1,13 @@
 package com.sunasterisk.musixmatch.ui.playing;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -21,12 +24,14 @@ import com.sunasterisk.musixmatch.service.MediaListener;
 import com.sunasterisk.musixmatch.service.MusicService;
 import com.sunasterisk.musixmatch.service.OnMediaPlayerChangeListener;
 import com.sunasterisk.musixmatch.ui.base.BaseActivity;
+import com.sunasterisk.musixmatch.ui.main.MainActivity;
 import com.sunasterisk.musixmatch.ui.playing.thumbnail.ThumbnailFragment;
 import com.sunasterisk.musixmatch.ui.playing.tracks.TracksFragment;
 import com.sunasterisk.musixmatch.utils.Constants;
 import com.sunasterisk.musixmatch.utils.StringUtils;
 import com.sunasterisk.musixmatch.utils.widget.RepeatButtonView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayingActivity extends BaseActivity implements TracksFragment.OnGetTracksListener,
@@ -54,6 +59,9 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
     private Handler mHandler;
     private Runnable mRunnable;
     private int mLoopState;
+    private Bundle mBundle;
+    public static final String EXTRA_TRACK = "EXTRA_TRACK";
+    public static final String EXTRA_TRACKS = "EXTRA_TRACKS";
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -108,8 +116,28 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
     @Override
     protected void onStart() {
         super.onStart();
-        Intent intent = new Intent(this, MusicService.class);
+        System.out.println("start");
+        Intent intent = new Intent(getApplicationContext(), MusicService.class);
         bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
+    }
+
+    public static Intent getPlayingActivity(Context context, Track currentTrack, List<Track> tracks) {
+        Intent intent = new Intent(context, PlayingActivity.class);
+        intent.putParcelableArrayListExtra(EXTRA_TRACKS, (ArrayList<? extends Parcelable>) tracks);
+        intent.putExtra(EXTRA_TRACK, currentTrack);
+        return intent;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("resume");
+        mBundle = getIntent().getExtras();
+        System.out.println(mLoopState == 0);
+        if (mBundle != null) {
+            onGetTracksSuccess(mBundle.getParcelableArrayList(MainActivity.EXTRA_TRACKS));
+            onPlayed(mBundle.getParcelable(MainActivity.EXTRA_TRACK));
+        }
     }
 
     @Override
@@ -119,6 +147,7 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
 
     @Override
     public void onPlayed(Track track) {
+        System.out.println(track.getData());
         mPosition = mTracks.indexOf(track);
         startService(MusicService.getIntentService(this, mTracks, mPosition));
         mMediaListener.play(track.getData());
@@ -139,7 +168,7 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
 
     @Override
     public void onMediaStateChange(boolean isPlaying) {
-            mButtonPlay.setSelected(isPlaying);
+        mButtonPlay.setSelected(isPlaying);
     }
 
     @Override

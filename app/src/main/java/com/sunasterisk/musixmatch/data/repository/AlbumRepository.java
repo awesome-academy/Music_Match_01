@@ -25,4 +25,9 @@ public class AlbumRepository implements AlbumDataSource.Local {
     public void getAlbums(Callback<List<Album>> callback) {
         mLocal.getAlbums(callback);
     }
+
+    @Override
+    public void getAlbums(int artistId, Callback<List<Album>> callback) {
+        mLocal.getAlbums(artistId, callback);
+    }
 }

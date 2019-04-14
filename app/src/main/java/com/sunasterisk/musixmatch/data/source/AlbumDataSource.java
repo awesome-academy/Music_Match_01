@@ -7,5 +7,6 @@ import java.util.List;
 public interface AlbumDataSource {
     interface Local {
         void getAlbums(Callback<List<Album>> callback);
+        void getAlbums(int artistId, Callback<List<Album>> callback);
     }
 }

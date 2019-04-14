@@ -43,7 +43,7 @@ public class TracksTabFragment extends TracksFragment implements OnRecyclerItemC
 
     @Override
     public void showLocalTracks(List<Track> tracks) {
-        mAdapter = new TracksTabAdapter(getContext());
+        mAdapter = new TracksTabAdapter(getContext(), mFragmentManager);
         mAdapter.setCallBack(this);
         mAdapter.setItems(tracks);
         mRecyclerView.setAdapter(mAdapter);

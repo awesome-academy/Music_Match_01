@@ -33,4 +33,6 @@
     <string name="text_artist_tab">ARTIST</string>
     <string name="text_track_tab">TRACK</string>
     <string name="text_playlist_tab">PLAYLIST</string>
+    <string name="text_shuffle_all">Shuffle all</string>
+    <string name="text_play_all">Play all</string>
 </resources>

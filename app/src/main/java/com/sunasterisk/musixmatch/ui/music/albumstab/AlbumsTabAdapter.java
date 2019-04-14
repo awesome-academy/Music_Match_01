@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.sunasterisk.musixmatch.ui.base.BaseAdapter;
 import com.sunasterisk.musixmatch.ui.base.BaseTrackViewHolder;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 import com.sunasterisk.musixmatch.ui.music.albumstab.albumdetails.AlbumDetailsFragment;
+import com.sunasterisk.musixmatch.utils.ActivityUtils;
 
 /**
  * Created by superme198 on 05,April,2019
@@ -26,8 +28,8 @@ public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickList
 
     public static final String ARGUMENT_ALBUM_ITEM = "ARGUMENT_ALBUM_ITEM";
 
-    public AlbumsTabAdapter(Context context) {
-        super(context);
+    public AlbumsTabAdapter(Context context, FragmentManager fm) {
+        super(context, fm);
     }
 
     public static AlbumDetailsFragment getAlbumDetailsFragment(Album album) {
@@ -74,7 +76,7 @@ public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickList
                 case R.id.cardview_album_art:
                 case R.id.text_title_album:
                 case R.id.text_subtitle_album:
-                    getAlbumDetailsFragment(mItem);
+                    ActivityUtils.replaceFragment(mFragmentManager, getAlbumDetailsFragment(mItem));
                     break;
                 default:
                     break;

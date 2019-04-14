@@ -2,6 +2,7 @@ package com.sunasterisk.musixmatch.ui.playing.tracks;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,8 @@ import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 
 public class TracksAdapter extends BaseAdapter<Track, OnRecyclerItemClickListener<Track>, TracksAdapter.TrackViewHolder> {
 
-    public TracksAdapter(Context context) {
-        super(context);
+    public TracksAdapter(Context context, FragmentManager fm) {
+        super(context, fm);
     }
 
     @NonNull
