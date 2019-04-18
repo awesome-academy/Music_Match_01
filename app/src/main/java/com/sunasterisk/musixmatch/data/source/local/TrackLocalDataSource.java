@@ -1,8 +1,11 @@
 package com.sunasterisk.musixmatch.data.source.local;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 
@@ -72,6 +75,17 @@ public class TrackLocalDataSource implements TrackDataSource.Local {
             }
         };
         asyncTask.execute();
+    }
+
+    @Override
+    public void updateTrack(int trackId, String trackName, String artistName, String albumName) {
+        ContentResolver resolver = mContext.getContentResolver();
+        Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, trackId);
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Audio.Media.TITLE, trackName);
+        values.put(MediaStore.Audio.Media.ARTIST, artistName);
+        values.put(MediaStore.Audio.Media.ALBUM, albumName);
+        resolver.update(uri, values, null, null);
     }
 
     public List<Track> getData(Cursor cursor) {

@@ -45,6 +45,11 @@ public class TrackRepository implements TrackDataSource.Local, TrackDataSource.R
     }
 
     @Override
+    public void updateTrack(int trackId, String trackName, String artistName, String albumName) {
+        mLocal.updateTrack(trackId, trackName, artistName, albumName);
+    }
+
+    @Override
     public void getTracksByAlbum(int albumID, int limit, TrackDataSource.LoadTrackCallback callback) {
         mRemote.getTracksByAlbum(albumID, limit, callback);
     }
@@ -56,6 +61,6 @@ public class TrackRepository implements TrackDataSource.Local, TrackDataSource.R
 
     @Override
     public void getLyrics(String trackName, String artistName, Callback<String> callback) {
-        mRemote.getLyrics(trackName,artistName,callback);
+        mRemote.getLyrics(trackName, artistName, callback);
     }
 }
