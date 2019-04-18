@@ -77,6 +77,10 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
 
     }
 
+    public void onTrackInfoUpdated() {
+        mPresenter.getLocalTracks();
+    }
+
     public interface OnGetTracksListener {
         void onPlayed(Track track);
 

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.sunasterisk.musixmatch">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -30,6 +30,7 @@
         </activity>
         <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.playing.PlayingActivity" />
+        <activity android:name=".ui.track_info.TrackInfoActivity"/>
         <activity
             android:name=".ui.splash.SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">

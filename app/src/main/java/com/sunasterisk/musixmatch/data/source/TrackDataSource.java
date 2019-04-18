@@ -9,6 +9,8 @@ public interface TrackDataSource {
         void getTracks(Callback<List<Track>> callback);
 
         void getTracks(int id, Callback<List<Track>> callback);
+
+        void updateTrack(int trackId, String trackName, String artistName, String albumName);
     }
 
     interface RemoteDataSource {

@@ -17,6 +17,7 @@ public class Track implements Parcelable {
     private long mDuration;
     private long mSize;
     private String mLyrics;
+    private String mTrackArt;
 
     public Track(Builder builder) {
         mTrackId = builder.mTrackId;
@@ -29,6 +30,7 @@ public class Track implements Parcelable {
         mDuration = builder.mDuration;
         mSize = builder.mSize;
         mLyrics = builder.mLyrics;
+        mTrackArt = builder.mTrackArt;
     }
 
     public Track(JSONObject jsonObject) throws JSONException {
@@ -50,6 +52,7 @@ public class Track implements Parcelable {
         mDuration = in.readLong();
         mSize = in.readLong();
         mLyrics = in.readString();
+        mTrackArt = in.readString();
     }
 
     public static final Parcelable.Creator<Track> CREATOR = new Creator<Track>() {
@@ -104,6 +107,10 @@ public class Track implements Parcelable {
         return mLyrics;
     }
 
+    public String getTrackArt() {
+        return mTrackArt;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -121,6 +128,7 @@ public class Track implements Parcelable {
         parcel.writeLong(mDuration);
         parcel.writeLong(mSize);
         parcel.writeString(mLyrics);
+        parcel.writeString(mTrackArt);
     }
 
     public static class Builder {
@@ -134,6 +142,7 @@ public class Track implements Parcelable {
         private long mDuration;
         private long mSize;
         private String mLyrics;
+        private String mTrackArt;
 
         public Builder() {
         }
@@ -185,6 +194,11 @@ public class Track implements Parcelable {
 
         public Builder setLyrics(String lyrics) {
             mLyrics = lyrics;
+            return this;
+        }
+
+        public Builder setTrackArt(String trackArt) {
+            mTrackArt = trackArt;
             return this;
         }
 

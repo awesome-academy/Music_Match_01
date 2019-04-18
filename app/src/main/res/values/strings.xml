@@ -41,4 +41,5 @@
     <string name="text_artists_info">Artists</string>
     <string name="text_title_info">Title</string>
     <string name="text_song_information">Song Information</string>
+    <string name="text_error_empty_value">This field must not be empty.</string>
 </resources>
