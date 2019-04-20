@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.ui.music.albumstab.AlbumsTabFragment;
 import com.sunasterisk.musixmatch.ui.music.artiststab.ArtistsTabFragment;
+import com.sunasterisk.musixmatch.ui.music.playlisttab.PlaylistTabFragment;
 import com.sunasterisk.musixmatch.ui.music.trackstab.TracksTabFragment;
 
 /**
@@ -39,7 +40,7 @@ public class MusicAdapter extends FragmentPagerAdapter {
             case TRACK:
                 return TracksTabFragment.newInstance();
             case PLAYLIST:
-                return TracksTabFragment.newInstance();
+                return PlaylistTabFragment.newInstance();
         }
 
         return null;

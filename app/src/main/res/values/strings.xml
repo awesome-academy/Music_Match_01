@@ -41,4 +41,12 @@
     <string name="text_artists_info">Artists</string>
     <string name="text_title_info">Title</string>
     <string name="text_song_information">Song Information</string>
+    <!--playlist tab-->
+    <string name="text_rename_playlist">Rename</string>
+    <string name="text_error_name_has_exist">Name has exist!</string>
+    <string name="text_rename_playlist_successful">Rename Successful</string>
+    <string name="text_create_playlist_successful">Create Successful</string>
+    <string name="text_playlist_does_not_exist">Playlist does not exist</string>
+    <string name="text_delete_playlist_successful">Delete Successful</string>
+    <string name="text_error_delete_playlist">Delete Failed</string>
 </resources>

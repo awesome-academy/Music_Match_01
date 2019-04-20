@@ -7,9 +7,9 @@
         android:id="@+id/add_to_queue"
         android:title="@string/text_add_to_queue" />
     <item
-        android:id="@+id/add_to_playlist"
-        android:title="@string/text_add_to_playlist" />
-    <item
         android:id="@+id/delete"
         android:title="@string/text_delete" />
+    <item
+        android:id="@+id/rename_playlist"
+        android:title="@string/text_rename_playlist" />
 </menu>

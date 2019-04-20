@@ -1,6 +1,7 @@
 package com.sunasterisk.musixmatch.ui.playing.tracks;
 
 import android.content.Context;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
@@ -68,13 +69,32 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
     }
 
     @Override
-    public void onItemClicked(Track item) {
-        mCallback.onPlayed(item);
-    }
+    public void onItemClicked(View view, long pos, Track item) {
 
-    @Override
-    public void onItemClicked(long id) {
-
+        switch (view.getId()) {
+            case R.id.item_track_card:
+                mCallback.onPlayed(item);
+                break;
+            case R.id.button_more:
+                PopupMenu popup = new PopupMenu(view.getContext(), view);
+                popup.inflate(R.menu.options_menu_tracks_tab);
+                popup.setOnMenuItemClickListener(it -> {
+                    switch (it.getItemId()) {
+                        case R.id.play:
+                            return true;
+                        case R.id.add_to_queue:
+                            return true;
+                        case R.id.delete:
+                            return true;
+                        case R.id.add_to_playlist:
+                            return true;
+                        default:
+                            return false;
+                    }
+                });
+                popup.show();
+                break;
+        }
     }
 
     public interface OnGetTracksListener {

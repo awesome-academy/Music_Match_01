@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.ui.main.MainActivity;
 
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 /**
  * Created by superme198 on 15,March,2019
@@ -18,7 +18,7 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
  */
 public class SplashActivity extends AppCompatActivity {
     public static final int TIME_DELAY = 2000;
-    public static final String[] PERMISSIONS = {READ_EXTERNAL_STORAGE};
+    public static final String[] PERMISSIONS = {WRITE_EXTERNAL_STORAGE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -55,8 +55,9 @@ public class TracksAdapter extends BaseAdapter<Track, OnRecyclerItemClickListene
         @Override
         public void onClick(View v) {
             if (mCallback != null) {
-                mCallback.onItemClicked(mItem);
+                mCallback.onItemClicked(v, getAdapterPosition(), mItem);
             }
+
         }
     }
 }
