@@ -56,37 +56,9 @@ public class ArtistsTabAdapter extends BaseAdapter<Artist, OnRecyclerItemClickLi
         }
 
         @Override
-        public void showOptionMenu() {
-            PopupMenu popup = new PopupMenu(mContext, mOptionMore);
-            popup.inflate(R.menu.options_menu_artists_tab);
-            popup.setOnMenuItemClickListener(item -> {
-                switch (item.getItemId()) {
-                    case R.id.play:
-                        return true;
-                    case R.id.add_to_queue:
-                        return true;
-                    case R.id.add_to_playlist:
-                        return true;
-                    default:
-                        return false;
-                }
-            });
-            popup.show();
-
-        }
-
-        @Override
         public void onClick(View v) {
-
-            switch (v.getId()) {
-                case R.id.item_track_card:
-                    if (mCallback != null) {
-                        mCallback.onItemClicked(mItem);
-                    }
-                    break;
-                case R.id.button_more:
-                    showOptionMenu();
-                    break;
+            if (mCallback != null) {
+                mCallback.onItemClicked(v, getAdapterPosition(), mItem);
             }
         }
 

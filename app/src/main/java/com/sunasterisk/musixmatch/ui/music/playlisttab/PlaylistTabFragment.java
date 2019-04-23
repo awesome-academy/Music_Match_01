@@ -1,5 +1,6 @@
 package com.sunasterisk.musixmatch.ui.music.playlisttab;
 
+import android.content.Context;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,6 +10,7 @@ import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Playlist;
 import com.sunasterisk.musixmatch.data.repository.PlaylistRepository;
 import com.sunasterisk.musixmatch.data.source.local.PlaylistLocalDataSource;
+import com.sunasterisk.musixmatch.ui.base.BaseActivity;
 import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 
@@ -24,9 +26,20 @@ public class PlaylistTabFragment extends BaseFragment implements PlaylistTabCont
     private RecyclerView mRecyclerView;
     private PlaylistTabContract.Presenter mPresenter;
     private PlaylistTabAdapter mAdapter;
-
+    private BaseActivity.OnFragmentChangeListener mFargmentChangeListener;
     public static PlaylistTabFragment newInstance() {
         return new PlaylistTabFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mFargmentChangeListener = (BaseActivity.OnFragmentChangeListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnFragmentChangeListener");
+        }
     }
 
     @Override
@@ -91,8 +104,23 @@ public class PlaylistTabFragment extends BaseFragment implements PlaylistTabCont
     }
 
     @Override
+    public void onDuplicatePrePlaylist() {
+        Toast.makeText(getContext(), getString(R.string.text_duplicate_pre_playlist_name), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void onItemClicked(View view, long pos, Playlist item) {
-        PopupMenu popup = new PopupMenu(view.getContext(), view);
+        switch (view.getId()) {
+            case R.id.item_track_card:
+                break;
+            case R.id.button_more:
+                showMenu(view, item);
+                break;
+        }
+    }
+
+    private void showMenu(View view, Playlist playlist) {
+        PopupMenu popup = new PopupMenu(getContext(), view);
         popup.inflate(R.menu.options_menu_playlist_tab);
         popup.setOnMenuItemClickListener(v -> {
             switch (v.getItemId()) {
@@ -101,10 +129,10 @@ public class PlaylistTabFragment extends BaseFragment implements PlaylistTabCont
                 case R.id.add_to_queue:
                     return true;
                 case R.id.delete:
-                    mPresenter.deletePlaylist(item.getId());
+                    mPresenter.deletePlaylist(playlist.getId());
                     return true;
                 case R.id.rename_playlist:
-                    mPresenter.renamePlaylist(item.getId(), "");
+                    mPresenter.renamePlaylist(playlist.getId(), "");
                     return true;
                 default:
                     return false;

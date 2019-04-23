@@ -1,5 +1,6 @@
 package com.sunasterisk.musixmatch.ui.music.trackstab;
 
+import android.support.v7.widget.PopupMenu;
 import android.view.View;
 
 import com.sunasterisk.musixmatch.R;
@@ -50,4 +51,34 @@ public class TracksTabFragment extends TracksFragment implements OnRecyclerItemC
 
     }
 
+    @Override
+    public void onItemClicked(View view, long pos, Track item) {
+        switch (view.getId()) {
+            case R.id.button_more:
+                showOptionMenu(view, item);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void showOptionMenu(View v, Track track) {
+        PopupMenu popup = new PopupMenu(v.getContext(), v);
+        popup.inflate(R.menu.options_menu_tracks_tab);
+        popup.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.play:
+                    return true;
+                case R.id.add_to_queue:
+                    return true;
+                case R.id.add_to_playlist:
+                    return true;
+                case R.id.edit_info:
+                    return true;
+                default:
+                    return false;
+            }
+        });
+        popup.show();
+    }
 }

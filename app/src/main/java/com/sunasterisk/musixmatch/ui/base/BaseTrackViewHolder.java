@@ -12,7 +12,7 @@ import com.sunasterisk.musixmatch.R;
  * Created by superme198 on 04,April,2019
  * in Music_Match__1.
  */
-public abstract class BaseTrackViewHolder<T, L extends BaseRecyclerListener> extends BaseViewHolder<T, L > {
+public abstract class BaseTrackViewHolder<T, L extends BaseRecyclerListener> extends BaseViewHolder<T, L> {
 
     protected ImageView mOptionMore;
     protected TextView mTextTitle;
@@ -25,5 +25,4 @@ public abstract class BaseTrackViewHolder<T, L extends BaseRecyclerListener> ext
         mOptionMore = itemView.findViewById(R.id.button_more);
     }
 
-    public abstract void showOptionMenu();
 }

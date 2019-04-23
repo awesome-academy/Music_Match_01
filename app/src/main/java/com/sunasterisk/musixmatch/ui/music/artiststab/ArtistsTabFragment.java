@@ -1,16 +1,17 @@
 package com.sunasterisk.musixmatch.ui.music.artiststab;
 
+import android.content.Context;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Artist;
 import com.sunasterisk.musixmatch.data.repository.ArtistRepository;
-import com.sunasterisk.musixmatch.data.source.ArtistDataSource;
 import com.sunasterisk.musixmatch.data.source.local.ArtistLocalDataSource;
+import com.sunasterisk.musixmatch.ui.base.BaseActivity;
 import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
-import com.sunasterisk.musixmatch.ui.playing.tracks.TracksAdapter;
 
 import java.util.List;
 
@@ -23,9 +24,20 @@ public class ArtistsTabFragment extends BaseFragment implements ArtistsContract.
     private ArtistsTabAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private ArtistsContract.Presenter mPresenter;
-
+    private BaseActivity.OnFragmentChangeListener mFragmentChangeListener;
     public static ArtistsTabFragment newInstance() {
         return new ArtistsTabFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mFragmentChangeListener = (BaseActivity.OnFragmentChangeListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnFragmentChangeListener");
+        }
     }
 
     @Override
@@ -46,13 +58,14 @@ public class ArtistsTabFragment extends BaseFragment implements ArtistsContract.
     }
 
     @Override
-    public void onItemClicked(Artist item) {
-
-    }
-
-    @Override
-    public void onItemClicked(long id) {
-
+    public void onItemClicked(View v, long pos, Artist i) {
+        switch (v.getId()) {
+            case R.id.button_more:
+                showOptionMenu(v, i);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -65,6 +78,25 @@ public class ArtistsTabFragment extends BaseFragment implements ArtistsContract.
 
     @Override
     public void showError(Exception e) {
+
+    }
+
+    private void showOptionMenu(View v, Artist artist) {
+        PopupMenu popup = new PopupMenu(getContext(), v);
+        popup.inflate(R.menu.options_menu_artists_tab);
+        popup.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.play:
+                    return true;
+                case R.id.add_to_queue:
+                    return true;
+                case R.id.add_to_playlist:
+                    return true;
+                default:
+                    return false;
+            }
+        });
+        popup.show();
 
     }
 }

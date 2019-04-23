@@ -47,18 +47,9 @@ public class PlaylistTabAdapter extends BaseAdapter<Playlist,
         }
 
         @Override
-        public void showOptionMenu() {
-        }
-
-        @Override
         public void onClick(View v) {
-
-            switch (v.getId()) {
-                case R.id.item_track_card:
-                    break;
-                case R.id.button_more:
-                    mCallback.onItemClicked(mOptionMore, getAdapterPosition(), mItem);
-                    break;
+            if (mCallback != null) {
+                mCallback.onItemClicked(mOptionMore, getAdapterPosition(), mItem);
             }
         }
 

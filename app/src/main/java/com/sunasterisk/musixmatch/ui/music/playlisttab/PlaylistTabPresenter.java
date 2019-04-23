@@ -2,10 +2,10 @@ package com.sunasterisk.musixmatch.ui.music.playlisttab;
 
 import android.content.Context;
 
-import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Playlist;
 import com.sunasterisk.musixmatch.data.repository.PlaylistRepository;
 import com.sunasterisk.musixmatch.data.source.Callback;
+import com.sunasterisk.musixmatch.data.source.PlaylistDataSource;
 
 import java.util.List;
 
@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class PlaylistTabPresenter implements PlaylistTabContract.Presenter {
 
-    private static final int ERROR_INDEX = -1;
     private PlaylistTabContract.View mView;
     private PlaylistRepository mRepository;
     private Context mContext;
@@ -43,20 +42,39 @@ public class PlaylistTabPresenter implements PlaylistTabContract.Presenter {
 
     @Override
     public void renamePlaylist(long id, String newName) {
-        if (mRepository.renamePlaylist(id, newName) == ERROR_INDEX) {
-            mView.onPlaylistNameExist();
-        } else {
-            mView.onPlaylistRenameSuccessful();
-        }
+
+        mRepository.renamePlaylist(id, newName, new PlaylistDataSource.RenamingPlaylistCallback() {
+            @Override
+            public void onDuplicate() {
+                mView.onDuplicatePrePlaylist();
+            }
+
+            @Override
+            public void onSuccess() {
+                mView.onPlaylistRenameSuccessful();
+            }
+
+            @Override
+            public void onExist() {
+                mView.onPlaylistNameExist();
+            }
+
+        });
     }
 
     @Override
     public void deletePlaylist(long id) {
-        if (mRepository.deletePlaylist(id) == ERROR_INDEX) {
-            mView.onDeletePlaylistFailed();
-        } else {
-            mView.onDeletePlaylistSuccessful();
-        }
+        mRepository.deletePlaylist(id, new PlaylistDataSource.DeletingPlaylistCallback() {
+            @Override
+            public void onNotExist() {
+                mView.onPlaylistDoesNotExist();
+            }
+
+            @Override
+            public void onDeleteSuccess() {
+                mView.onDeletePlaylistSuccessful();
+            }
+        });
 
     }
 }

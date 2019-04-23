@@ -17,13 +17,35 @@ public interface PlaylistDataSource {
 
     Uri addSongToPlaylist(long Id, Track track);
 
-    long createPlaylist(String name);
+    void createPlaylist(String name, CreatingPlaylistCallBack callback);
 
     long getPlaylistId(String name);
 
-    int deletePlaylist(long id);
+    void deletePlaylist(long id, DeletingPlaylistCallback callback);
 
     int removeTrackFromPlaylist(long id, Track track);
 
-    int renamePlaylist(long id, String newName);
+    void renamePlaylist(long id, String newName, RenamingPlaylistCallback callback);
+
+    interface CreatingPlaylistCallBack {
+        void onSuccess();
+
+        void onExist();
+
+        void onInvalid();
+    }
+
+    interface RenamingPlaylistCallback {
+        void onDuplicate();
+
+        void onSuccess();
+
+        void onExist();
+    }
+
+    interface DeletingPlaylistCallback {
+        void onNotExist();
+
+        void onDeleteSuccess();
+    }
 }

@@ -49,4 +49,5 @@
     <string name="text_playlist_does_not_exist">Playlist does not exist</string>
     <string name="text_delete_playlist_successful">Delete Successful</string>
     <string name="text_error_delete_playlist">Delete Failed</string>
+    <string name="text_duplicate_pre_playlist_name">Has Duplicate Previous Playlist Name</string>
 </resources>

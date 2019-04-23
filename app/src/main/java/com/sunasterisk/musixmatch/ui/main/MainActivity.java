@@ -3,12 +3,13 @@ package com.sunasterisk.musixmatch.ui.main;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
 import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.ui.base.BaseActivity;
-import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 import com.sunasterisk.musixmatch.ui.main.home.HomeFragment;
 import com.sunasterisk.musixmatch.ui.music.MusicFragment;
 import com.sunasterisk.musixmatch.ui.playing.tracks.TracksFragment;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener,
-        TracksFragment.OnGetTracksListener, OnRecyclerItemClickListener<Track> {
+        TracksFragment.OnGetTracksListener, BaseActivity.OnFragmentChangeListener {
     private BottomNavigationView mBottomNavigationView;
 
     @Override
@@ -66,5 +67,15 @@ public class MainActivity extends BaseActivity
     @Override
     public void onGetTracksSuccess(List<Track> tracks) {
 
+    }
+
+    @Override
+    public void onAddFragment(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment, int frameId) {
+        addFragmentToActivity(fragmentManager, fragment, frameId);
+    }
+
+    @Override
+    public void onReplaceFragment(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment) {
+        replaceFragment(fragmentManager, fragment);
     }
 }

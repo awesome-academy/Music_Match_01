@@ -40,8 +40,8 @@ public class PlaylistRepository implements PlaylistDataSource {
     }
 
     @Override
-    public long createPlaylist(String name) {
-        return mDataSource.createPlaylist(name);
+    public void createPlaylist(String name, CreatingPlaylistCallBack callback) {
+        mDataSource.createPlaylist(name, callback);
     }
 
     @Override
@@ -50,8 +50,8 @@ public class PlaylistRepository implements PlaylistDataSource {
     }
 
     @Override
-    public int deletePlaylist(long id) {
-        return mDataSource.deletePlaylist(id);
+    public void deletePlaylist(long id, DeletingPlaylistCallback callback) {
+         mDataSource.deletePlaylist(id, callback);
     }
 
     @Override
@@ -60,8 +60,8 @@ public class PlaylistRepository implements PlaylistDataSource {
     }
 
     @Override
-    public int renamePlaylist(long id, String newName) {
-        return mDataSource.renamePlaylist(id, newName);
+    public void renamePlaylist(long id, String newName, RenamingPlaylistCallback callback) {
+        mDataSource.renamePlaylist(id, newName, callback);
     }
 
 

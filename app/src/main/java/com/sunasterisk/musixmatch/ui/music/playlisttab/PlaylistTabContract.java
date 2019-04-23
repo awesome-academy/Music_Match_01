@@ -27,6 +27,8 @@ public interface PlaylistTabContract {
         void onDeletePlaylistFailed();
 
         void onPlaylistNameExist();
+
+        void onDuplicatePrePlaylist();
     }
 
     interface Presenter {

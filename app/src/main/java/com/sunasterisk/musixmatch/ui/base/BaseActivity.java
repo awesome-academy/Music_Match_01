@@ -23,7 +23,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void addFragmentToActivity(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment, int frameId) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(frameId, fragment)
-                .addToBackStack(null)
                 .commit();
     }
 
@@ -40,4 +39,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initComponents();
 
     protected abstract void initData();
+
+    public interface OnFragmentChangeListener {
+
+        void onAddFragment(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment, int frameId);
+
+        void onReplaceFragment(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment);
+
+    }
 }

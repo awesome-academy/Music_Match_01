@@ -67,17 +67,8 @@ public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickList
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.button_more_album:
-                    showOptionMenu();
-                    break;
-                case R.id.cardview_album_art:
-                case R.id.text_title_album:
-                case R.id.text_subtitle_album:
-                    getAlbumDetailsFragment(mItem);
-                    break;
-                default:
-                    break;
+            if (mCallback != null) {
+                mCallback.onItemClicked(v, getAdapterPosition(), mItem);
             }
         }
 
@@ -89,26 +80,6 @@ public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickList
                 mTextSubTitle.setText(mItem.getArtistName());
                 mAlbumArt.setForeground(Drawable.createFromPath(album.getAlbumArt()));
             }
-        }
-
-        public void showOptionMenu() {
-            PopupMenu popup = new PopupMenu(mContext, mOptionMore);
-            popup.inflate(R.menu.options_menu_albums_tab);
-            popup.setOnMenuItemClickListener(item -> {
-                switch (item.getItemId()) {
-                    case R.id.play:
-                        return true;
-                    case R.id.add_to_queue:
-                        return true;
-                    case R.id.add_to_playlist:
-                        return true;
-                    case R.id.edit_info:
-                        return true;
-                    default:
-                        return false;
-                }
-            });
-            popup.show();
         }
     }
 }

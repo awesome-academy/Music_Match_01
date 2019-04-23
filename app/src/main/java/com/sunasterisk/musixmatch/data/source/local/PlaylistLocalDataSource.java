@@ -88,33 +88,24 @@ public class PlaylistLocalDataSource implements PlaylistDataSource {
         return uri;
     }
 
-    public int getLargestPos(long id) {
-        Uri uri = MediaStore.Audio.Playlists.Members.getContentUri(CONTENT_URI_NAME, id);
-        String[] projection = new String[]{MediaStore.Audio.Playlists.Members.PLAY_ORDER};
-        Cursor cursor = mContentResolver.query(uri, projection, null, null, null);
-        int base = FIRST_ELEMENT_INDEX;
-        if (cursor.moveToLast()) {
-            base = cursor.getInt(FIRST_ELEMENT_INDEX);
-        }
-        cursor.close();
-        return base;
-    }
-
     @Override
-    public long createPlaylist(String name) {
+    public void createPlaylist(String name, CreatingPlaylistCallBack callback) {
+        if (name.length() == 0) {
+            callback.onInvalid();
+            return;
+        }
         long id = getPlaylistId(name);
 
-        if (id == ERROR_INDEX) {
+        if (!isExistPlaylist(id)) {
             // We need to create a new playlist.
             ContentValues values = new ContentValues();
             values.put(MediaStore.Audio.Playlists.NAME, name);
             Uri uri = mContentResolver.insert(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, values);
             id = Long.parseLong(uri.getLastPathSegment());
+            callback.onSuccess();
         } else {
-            id = ERROR_INDEX;
+            callback.onExist();
         }
-
-        return id;
     }
 
     @Override
@@ -134,9 +125,13 @@ public class PlaylistLocalDataSource implements PlaylistDataSource {
     }
 
     @Override
-    public int deletePlaylist(long id) {
+    public void deletePlaylist(long id, DeletingPlaylistCallback callback) {
         Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, id);
-        return mContentResolver.delete(uri, null, null);
+        if (mContentResolver.delete(uri, null, null) >= 0) {
+            callback.onDeleteSuccess();
+        } else {
+            callback.onNotExist();
+        }
     }
 
     @Override
@@ -147,23 +142,29 @@ public class PlaylistLocalDataSource implements PlaylistDataSource {
     }
 
     @Override
-    public int renamePlaylist(long id, String newName) {
+    public void renamePlaylist(long id, String newName, RenamingPlaylistCallback callback) {
         long existingId = getPlaylistId(newName);
         // We are already called the requested name; nothing to do.
-        if (existingId == id || existingId != ERROR_INDEX) {
-            return ERROR_INDEX;
+        if (existingId == id) {
+            callback.onDuplicate();
+            return;
+        }
+        if (isExistPlaylist(existingId)) {
+            callback.onExist();
+            return;
         }
 
         ContentValues values = new ContentValues();
         values.put(MediaStore.Audio.Playlists.NAME, newName);
-        return mContentResolver.update(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, values, "_id=" + id, null);
+        mContentResolver.update(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, values, "_id=" + id, null);
+        callback.onSuccess();
     }
 
     private int countPlaylist(final long id) {
         Cursor cursor = null;
         try {
             cursor = mContentResolver.query(
-                    MediaStore.Audio.Playlists.Members.getContentUri(CONTENT_URI_MEDIA, id),
+                    MediaStore.Audio.Playlists.Members.getContentUri(CONTENT_URI_NAME, id),
                     new String[]{
                             MediaStore.Audio.Playlists.Members.AUDIO_ID,
                     }, null, null,
@@ -200,6 +201,22 @@ public class PlaylistLocalDataSource implements PlaylistDataSource {
             playlists.add(playList);
         }
         return playlists;
+    }
+
+    private int getLargestPos(long id) {
+        Uri uri = MediaStore.Audio.Playlists.Members.getContentUri(CONTENT_URI_NAME, id);
+        String[] projection = new String[]{MediaStore.Audio.Playlists.Members.PLAY_ORDER};
+        Cursor cursor = mContentResolver.query(uri, projection, null, null, null);
+        int base = FIRST_ELEMENT_INDEX;
+        if (cursor.moveToLast()) {
+            base = cursor.getInt(FIRST_ELEMENT_INDEX);
+        }
+        cursor.close();
+        return base;
+    }
+
+    private boolean isExistPlaylist(long playlistId) {
+        return playlistId >= 0;
     }
 
 }

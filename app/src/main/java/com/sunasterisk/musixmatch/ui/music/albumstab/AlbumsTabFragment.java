@@ -1,6 +1,8 @@
 package com.sunasterisk.musixmatch.ui.music.albumstab;
 
+import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -8,6 +10,7 @@ import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Album;
 import com.sunasterisk.musixmatch.data.repository.AlbumRepository;
 import com.sunasterisk.musixmatch.data.source.local.AlbumLocalDataSource;
+import com.sunasterisk.musixmatch.ui.base.BaseActivity;
 import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 
@@ -24,9 +27,21 @@ public class AlbumsTabFragment extends BaseFragment implements AlbumsContract.Vi
     protected RecyclerView mRecyclerView;
     protected AlbumsTabPresenter mPresenter;
     private static final int NUMBER_COLUMNS = 2;
+    private BaseActivity.OnFragmentChangeListener mFragmentChangeListener;
 
     public static AlbumsTabFragment newInstance() {
         return new AlbumsTabFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mFragmentChangeListener = (BaseActivity.OnFragmentChangeListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnFragmentChangeListener");
+        }
     }
 
     @Override
@@ -48,13 +63,16 @@ public class AlbumsTabFragment extends BaseFragment implements AlbumsContract.Vi
     }
 
     @Override
-    public void onItemClicked(Album item) {
-
-    }
-
-    @Override
-    public void onItemClicked(long id) {
-
+    public void onItemClicked(View v, long pos, Album item) {
+        switch (v.getId()) {
+            case R.id.button_more_album:
+                showOptionMenu(v, item);
+                break;
+            default:
+                mFragmentChangeListener.onReplaceFragment(getFragmentManager(),
+                        AlbumsTabAdapter.getAlbumDetailsFragment(item));
+                break;
+        }
     }
 
     @Override
@@ -70,4 +88,25 @@ public class AlbumsTabFragment extends BaseFragment implements AlbumsContract.Vi
     public void showError(Exception e) {
 
     }
+
+    private void showOptionMenu(View view, Album album) {
+        PopupMenu popup = new PopupMenu(getContext(), view);
+        popup.inflate(R.menu.options_menu_albums_tab);
+        popup.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.play:
+                    return true;
+                case R.id.add_to_queue:
+                    return true;
+                case R.id.add_to_playlist:
+                    return true;
+                case R.id.edit_info:
+                    return true;
+                default:
+                    return false;
+            }
+        });
+        popup.show();
+    }
+
 }

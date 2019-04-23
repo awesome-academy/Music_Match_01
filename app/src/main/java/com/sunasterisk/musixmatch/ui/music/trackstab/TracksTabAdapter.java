@@ -35,8 +35,9 @@ public class TracksTabAdapter extends BaseAdapter<Track, OnRecyclerItemClickList
     public static class MyViewHolder extends BaseTrackViewHolder<Track, OnRecyclerItemClickListener<Track>> {
 
         private CardView mLogoTrack;
+
         public MyViewHolder(Context context,
-        @NonNull View itemView, OnRecyclerItemClickListener<Track> callback) {
+                            @NonNull View itemView, OnRecyclerItemClickListener<Track> callback) {
             super(context, itemView, callback);
             mLogoTrack = itemView.findViewById(R.id.card_view_logo_track);
             mOptionMore.setOnClickListener(this);
@@ -44,7 +45,7 @@ public class TracksTabAdapter extends BaseAdapter<Track, OnRecyclerItemClickList
 
         @Override
         public void bindData(Track track) {
-            if (track !=null){
+            if (track != null) {
                 mItem = track;
                 mTextTitle.setText(mItem.getTrackName());
                 mTextSubTitle.setText(mItem.getArtistName());
@@ -53,35 +54,13 @@ public class TracksTabAdapter extends BaseAdapter<Track, OnRecyclerItemClickList
         }
 
         @Override
-        public void showOptionMenu() {
-            PopupMenu popup = new PopupMenu(mContext, mOptionMore);
-            popup.inflate(R.menu.options_menu_tracks_tab);
-            popup.setOnMenuItemClickListener(item -> {
-                switch (item.getItemId()) {
-                    case R.id.play:
-                        return true;
-                    case R.id.add_to_queue:
-                        return true;
-                    case R.id.add_to_playlist:
-                        return true;
-                    case R.id.edit_info:
-                        return true;
-                        default:return false;
-                }
-            });
-            popup.show();
-        }
-
-        @Override
         public void onClick(View v) {
-
-            switch (v.getId()){
-                case R.id.button_more: showOptionMenu(); break;
-                default:
+            if (mCallback != null) {
+                mCallback.onItemClicked(v, getAdapterPosition(), mItem);
             }
         }
 
-        private void showLogoTrack(){
+        private void showLogoTrack() {
             mLogoTrack.setVisibility(View.VISIBLE);
         }
     }

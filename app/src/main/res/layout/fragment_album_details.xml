@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white">
@@ -64,36 +65,46 @@
 
     <TextView
         android:id="@+id/text_title_album"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_16"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_8"
-        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:ellipsize="end"
         android:lines="1"
-        app:layout_constraintBaseline_toBaselineOf="@+id/text_num_songs"
-        app:layout_constraintEnd_toStartOf="@+id/text_num_songs"
-        app:layout_constraintStart_toStartOf="@+id/guideline6" />
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toTopOf="@+id/text_num_songs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/card_app_bar" />
 
     <TextView
         android:id="@+id/text_num_songs"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_32"
-        android:layout_marginBottom="@dimen/dp_24"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_8"
         app:layout_constraintBottom_toTopOf="@+id/text_current_song"
-        app:layout_constraintStart_toEndOf="@+id/text_title_album"
-        app:layout_constraintTop_toBottomOf="@+id/card_app_bar" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/text_title_album" />
 
     <TextView
         android:id="@+id/text_current_song"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:ellipsize="end"
         android:textSize="@dimen/sp_24"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/text_title_album"
-        app:layout_constraintTop_toBottomOf="@+id/text_title_album" />
+        app:layout_constraintTop_toBottomOf="@+id/text_num_songs" />
 
     <include
         layout="@layout/fragment_tracks_tab"
@@ -126,8 +137,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_gray"
-            android:padding="@dimen/dp_8">
+            android:background="@color/color_gray">
 
             <ImageView
                 android:layout_width="wrap_content"
